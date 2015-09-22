@@ -57,7 +57,7 @@ class LoginController {
 		// Check for missing username
 		if($InputName == '') {
 			if($this->logView->getRequestLogin() == 'login') {
-				$this->msg = 'Name is missing';
+				$this->msg = 'Username is missing';
 				return false;
 			}
 		}
