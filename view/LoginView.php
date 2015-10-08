@@ -3,6 +3,7 @@
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
+	private static $register = 'LoginView::Register';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
 	private static $cookieName = 'LoginView::CookieName';
@@ -19,14 +20,12 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response($isLoggedIn, $msg) {
+	public function response($isLoggedIn, $msg, $name) {
 		$message = $msg;
-		
 		if($isLoggedIn == true)
 			$response = $this->generateLogoutButtonHTML($message);
 		else
-			$response = $this->generateLoginFormHTML($message);
-		
+			$response = $this->generateLoginFormHTML($message,$name);
 		return $response;
 	}
 
@@ -49,7 +48,7 @@ class LoginView {
 	* @param $message, String output message
 	* @return  void, BUT writes to standard output!
 	*/
-	private function generateLoginFormHTML($message) {
+	private function generateLoginFormHTML($message,$name) {
 		return '
 			<form method="post" > 
 				<fieldset>
@@ -57,7 +56,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="'.$name.'" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -66,12 +65,13 @@ class LoginView {
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
 					
 					<input type="submit" name="' . self::$login . '" value="login" />
+					
+					<input type="submit" name="' . self::$register . '" value="Register new user"/>
 				</fieldset>
 			</form>
 		';
 	}
 	
-	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
 	public function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 		if(isset($_REQUEST[LoginView::$name]))
@@ -79,21 +79,27 @@ class LoginView {
 	}
 	
 	public function getRequestPassword() {
-		//RETURN REQUEST VARIABLE: USERNAME
+		//RETURN REQUEST VARIABLE: PASSWORD
 		if(isset($_REQUEST[LoginView::$password]))
 			return $_REQUEST[LoginView::$password];
 	}
 	
 	public function getRequestLogin() {
-		//RETURN REQUEST VARIABLE: USERNAME
+		//RETURN REQUEST VARIABLE: LOGIN
 		if(isset($_REQUEST[LoginView::$login]))
 			return $_REQUEST[LoginView::$login];
 	}
 	
 	public function getRequestLogout() {
-		//RETURN REQUEST VARIABLE: USERNAME
+		//RETURN REQUEST VARIABLE: LOGOUT
 		if(isset($_REQUEST[LoginView::$logout]))
 			return $_REQUEST[LoginView::$logout];
+	}
+	
+	public function getRequestRegister() {
+		//RETURN REQUEST VARIABLE: REGISTER
+		if(isset($_REQUEST[LoginView::$register]))
+			return $_REQUEST[LoginView::$register];
 	}
 	
 }
