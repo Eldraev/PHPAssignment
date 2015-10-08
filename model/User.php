@@ -19,4 +19,11 @@ class User {
 	public function getPassword() {
 		return $this->password;
 	}
+	
+	public function isSame(User $u) {
+		if($u->getUserName() == $this->username)
+			return true;
+		else
+			return false;
+	}
 }
